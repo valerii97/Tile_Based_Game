@@ -38,7 +38,7 @@ class Game:
 
         self.playing = True
         while self.playing:
-            self.dt = self.clock.tick(FPS) / 1000
+            self.dt = self.clock.tick(FPS) / 1000  # for making further moving at consistent speed
             self.events()
             self.update()
             self.draw()
@@ -50,14 +50,6 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
-                if event.key == pg.K_LEFT:
-                    self.player.move(dx=-1)
-                if event.key == pg.K_RIGHT:
-                    self.player.move(dx=1)
-                if event.key == pg.K_UP:
-                    self.player.move(dy=-1)
-                if event.key == pg.K_DOWN:
-                    self.player.move(dy=1)
 
     def update(self):
         self.all_sprites.update()
