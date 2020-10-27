@@ -1,6 +1,7 @@
 import pygame as pg
 from settings import *
 
+
 class Player(pg.sprite.Sprite):
     def __init__(self, game, x, y):
         self.groups = game.all_sprites  # adding all objects of this class to all_sprites group
@@ -57,6 +58,7 @@ class Player(pg.sprite.Sprite):
         self.collide_with_walls('x')
         self.rect.y = self.y
         self.collide_with_walls('y')
+
 
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
