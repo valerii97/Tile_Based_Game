@@ -28,27 +28,35 @@ class Player(pg.sprite.Sprite):
             self.vx *= 0.7071
             self.vy *= 0.7071
 
-    def move(self, dx=0, dy=0):
-        if not self.collide_with_walls(dx, dy):
-            self.x += dx
-            self.y += dy
-
-    def collide_with_walls(self, dx=0, dy=0):
-        for wall in self.game.walls:
-            if wall.x == self.x + dx and wall.y == self.y + dy:
-                return True
-        return False
+    def collide_with_walls(self, dir):
+        if dir == 'x':
+            hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                if self.vx > 0:  # sprite moving to right
+                    self.x = hits[0].rect.left - self.rect.width  # this will stop us, while we moving to the right
+                if self.vx < 0:
+                    self.x = hits[0].rect.right
+                self.vx = 0  # if hits in x dir, than we must stop in this ax
+                self.rect.x = self.x
+        if dir == 'y':
+            hits = pg.sprite.spritecollide(self, self.game.walls, False)
+            if hits:
+                if self.vy > 0:
+                    self.y = hits[0].rect.top - self.rect.height
+                if self.vy < 0:
+                    self.y = hits[0].rect.bottom
+                self.vy = 0
+                self.rect.y = self.y
 
     def update(self):
         self.get_keys()  # to check it at each frame
         self.x += self.vx * self.game.dt  # frame independent movement
         self.y += self.vy * self.game.dt
-        self.rect.topleft = (self.x, self.y)
-        if pg.sprite.spritecollideany(self, self.game.walls):  # faster than spritecollide
-            self.x -= self.vx * self.game.dt
-            self.y -= self.vy * self.game.dt
-            self.rect.topleft = (self.x, self.y)
-
+        # Making 2 collision checks: one for each axes, to make possible sliding movement via walls' edges
+        self.rect.x = self.x
+        self.collide_with_walls('x')
+        self.rect.y = self.y
+        self.collide_with_walls('y')
 
 class Wall(pg.sprite.Sprite):
     def __init__(self, game, x, y):
