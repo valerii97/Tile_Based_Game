@@ -32,7 +32,7 @@ class Game:
                 if tile == '1':
                     Wall(self, col, row)
                 if tile == 'P':
-                    self.player = Player(self, col, row)
+                    self.player = Player(self, col, row)  # to spawn player in particular place
 
     def run(self):
 
