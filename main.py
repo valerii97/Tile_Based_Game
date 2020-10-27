@@ -18,7 +18,7 @@ class Game:
     def load_data(self):
         game_folder = path.dirname(__file__)
         self.map_data = []
-        with open(path.join(game_folder, 'map2.txt'), 'rt') as f:
+        with open(path.join(game_folder, 'map2.txt'), 'rt') as f:  # to open and close after loading
             for line in f:
                 self.map_data.append(line)
 
