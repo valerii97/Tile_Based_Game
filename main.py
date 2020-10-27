@@ -1,9 +1,10 @@
 import pygame as pg
 import sys
+from os import path
 from settings import *
 from sprites import *
 
-# changes for github
+
 class Game:
     def __init__(self):
         pg.init()
@@ -15,16 +16,23 @@ class Game:
         self.load_data()
 
     def load_data(self):
-        pass
+        game_folder = path.dirname(__file__)
+        self.map_data = []
+        with open(path.join(game_folder, 'map2.txt'), 'rt') as f:
+            for line in f:
+                self.map_data.append(line)
 
     def new(self):
 
         self.all_sprites = pg.sprite.Group()
         self.walls = pg.sprite.Group()
-        self.player = Player(self, 10, 10)
-
-        for x in range(10, 20):
-            Wall(self, x, 5)
+        # Making a level and spawning a Player in particular place
+        for row, tiles in enumerate(self.map_data):
+            for col, tile in enumerate(tiles):
+                if tile == '1':
+                    Wall(self, col, row)
+                if tile == 'P':
+                    self.player = Player(self, col, row)
 
     def run(self):
 
