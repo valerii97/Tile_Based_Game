@@ -15,10 +15,11 @@ class Game:
         self.clock = pg.time.Clock()
         pg.key.set_repeat(500, 100)  # makes easier to move, if 500ms pressed, repeat action after 100ms pause
         self.load_data()
+        self.save_dt = 0
 
     def load_data(self):
         game_folder = path.dirname(__file__)
-        self.map = Map(path.join(game_folder, 'map3.txt'))
+        self.map = Map(path.join(game_folder, 'map4.txt'))
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -27,7 +28,9 @@ class Game:
         for row, tiles in enumerate(self.map.data):
             for col, tile in enumerate(tiles):
                 if tile == '1':
-                    Wall(self, col, row)
+                    Wall(self, col, row, 'dirt.png')
+                if tile == '2':
+                    Wall(self, col, row, 'grass.png')
                 if tile == 'P':
                     self.player = Player(self, col, row)  # to spawn player in particular place
 
@@ -48,6 +51,8 @@ class Game:
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_ESCAPE:
                     self.quit()
+                if event.key == pg.K_SPACE:
+                    self.player.jump()
 
     def update(self):
         self.all_sprites.update()
@@ -61,7 +66,7 @@ class Game:
 
     def draw(self):
         self.screen.fill(BGCOLOR)
-        self.draw_grid()
+        #self.draw_grid()
         for sprite in self.all_sprites:  # drawing objects in camera
             self.screen.blit(sprite.image, self.camera.apply(sprite))  # adding entity to follow for
         pg.display.flip()

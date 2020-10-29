@@ -1,6 +1,6 @@
 # Screen settings
 WIDTH = 1024
-HEIGHT = 768
+HEIGHT = 608
 TITLE = 'Tile Based Game'
 FPS = 60
 
@@ -19,4 +19,9 @@ RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 
 # Player settings
-PLAYER_SPEED = 500
+PLAYER_SPEED = 50
+PLAYER_JUMP = 80 * TILESIZE
+PLAYER_FRICTION = -0.12
+
+# Game settings
+GRAVITY = 35
