@@ -20,7 +20,7 @@ YELLOW = (255, 255, 0)
 
 # Player settings
 PLAYER_SPEED = 50
-PLAYER_JUMP = 80 * TILESIZE
+PLAYER_JUMP = 60 * TILESIZE
 PLAYER_FRICTION = -0.12
 
 # Game settings

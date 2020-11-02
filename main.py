@@ -20,6 +20,7 @@ class Game:
     def load_data(self):
         game_folder = path.dirname(__file__)
         self.map = Map(path.join(game_folder, 'map4.txt'))
+        self.spritesheet = Spritesheet('Medieval_props_free.png')
 
     def new(self):
         self.all_sprites = pg.sprite.Group()
@@ -31,6 +32,10 @@ class Game:
                     Wall(self, col, row, 'dirt.png')
                 if tile == '2':
                     Wall(self, col, row, 'grass.png')
+                if tile == 'd':
+                    Props(self, col, row, self.spritesheet.get_image(67, 29, 51, 58))
+                if tile =='l':
+                    Ladders(self, col, row, self.spritesheet.get_image(195, 95, 22, 75))
                 if tile == 'P':
                     self.player = Player(self, col, row)  # to spawn player in particular place
 
@@ -53,10 +58,20 @@ class Game:
                     self.quit()
                 if event.key == pg.K_SPACE:
                     self.player.jump()
+                if event.key == pg.K_f:
+                    self.player.attack1()
+            if event.type == pg.KEYUP:
+                if event.key == pg.K_f:
+                    self.player.attack = False
+            #         self.player.jumping = True
+            # if event.type == pg.KEYUP:
+            #     if event.key == pg.K_SPACE:
+            #         self.player.jumping = False
 
     def update(self):
         self.all_sprites.update()
         self.camera.update(self.player)  # updating camera every loop
+        print(self.player.rect.width)
 
     def draw_grid(self):
         for x in range(0, WIDTH, TILESIZE):
